@@ -20,6 +20,7 @@ def on_message_received(event, payload, connection, error):
         case 'message':
             print(payload)
         case 'close':
+            #ciao ciao
             print(f"Connection with peer {connection.remote_address} closed")
             global remote_peer; remote_peer = None
         case 'error':
@@ -29,11 +30,13 @@ def on_message_received(event, payload, connection, error):
 if mode == 'server':
     port = int(sys.argv[2])
 
-    def on_new_connection(event, connection, address, error):
+    def on_new_connection(event, connection: Connection, address, error):
         match event:
             case 'listen':
                 print(f"Server listening on port {address[0]} at {', '.join(local_ips())}")
             case 'connect':
+                #ti mando chi non conosci 
+                #peer si è unito
                 print(f"Open ingoing connection from: {address}")
                 connection.callback = on_message_received
                 global remote_peer; remote_peer = connection

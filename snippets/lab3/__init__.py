@@ -36,7 +36,7 @@ class Connection:
     
     def send(self, message):
         if not isinstance(message, bytes):
-            message = message.encode()
+            message = message.encode(encoding='UTF-8')
             message = int.to_bytes(len(message), 2, 'big') + message
         self.__socket.sendall(message)
 
@@ -44,7 +44,7 @@ class Connection:
         length = int.from_bytes(self.__socket.recv(2), 'big')
         if length == 0:
             return None
-        return self.__socket.recv(length).decode()
+        return self.__socket.recv(length).decode(encoding='UTF-8')
     
     def close(self):
         self.__socket.close()
